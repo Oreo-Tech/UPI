@@ -30,7 +30,7 @@ steps:
     timeoutInSeconds: 600
     name: "Install Node Prereqs"
     command: |
-      cd ${OCI_WORKSPACE_DIR}/node_express
+      cd ${OCI_WORKSPACE_DIR}/github_UPI
       # install nvm
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
       export NVM_DIR="$HOME/.nvm"
