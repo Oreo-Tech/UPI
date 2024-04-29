@@ -1,0 +1,3 @@
+docker build -t myhttpd:latest .
+
+docker tag myhttpd iad.ocir.io/sehubjapaciaas/myhttpd:latest
