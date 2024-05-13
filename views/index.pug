@@ -1,12 +1,49 @@
-extends layout
+html
+  head
+    title QR Code Scanner
+    script(src='https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js')
+  body
+    //- h1 QR Code Scanner
+    //- form(method='POST', enctype='multipart/form-data', action='/scan')
+    //-   input(type='file', name='file')
+    //-   button(type='submit') Scan QR Code
+    //- #result
 
-block content
-  h1 Welcome to this #{title}! Trial 10
-  p 
-    strong Congrats! 
-    | You've successfully built, tested, delivered and deployed this example web application. 
-  p From here, you can 
-    | 
-    a(href="https://docs.oracle.com/en-us/iaas/Content/devops/using/home.htm") read more about the DevOps service 
-    | and get started with your 
-    a(href="https://cloud.oracle.com/devops-project/projects") own CI/CD pipeline.
+    h1 QR Code Cam Scanner
+    #reader(style='width: 500px')
+    button(type='button', id='scan-button') Scan QR Code
+    #camresult
+script(src='https://unpkg.com/html5-qrcode')
+script.
+  const qrcode = new Html5QrcodeScanner("reader", { fps: 10 , qrbox: 250 });
+  function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+    let amount = prompt("Enter Amount", "0");
+    alert("Transferred "+amount+" Successful to "+ decodedText)
+    // ...
+    qrcode.clear();
+    html5QrcodeScanner.render(onScanSuccess);
+
+    // ^ this will stop the scanner (video feed) and clear the scan area.
+   }  
+
+  qrcode.render(onScanSuccess);
+
+ 
+  //- qrcode.callback = function(result) {
+  //-   qrcode.stop(); // Stop scanning after successful scan
+  //-   fetch('/scanCam', {
+  //-     method: 'POST',
+  //-     body: JSON.stringify({ qrResult: result }),
+  //-   })
+  //-   .then(response => response.json())
+  //-   .then(data => {
+  //-     // Display the decoded text in the UI
+  //-     // ...
+  //-   })
+  //-   .catch(error => console.error(error));
+  //- };
+  document.getElementById('scan-button').addEventListener('click', () => {
+    qrcode.render(onScanSuccess); // Restart scanning on button click
+  });
